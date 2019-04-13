@@ -100,6 +100,12 @@
             marker.setAnimation(null);
           })
         }
+          new google.maps.Polyline({
+            path: locations,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
         
         let markers = locations.map(function(location,i){
           createMarker(location);
