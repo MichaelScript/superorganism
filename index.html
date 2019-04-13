@@ -16,24 +16,53 @@
         margin: 0;
         padding: 0;
       }
+      #info{
+        height:100%;
+        width:30vw;
+        position: absolute;
+        bottom:0;
+        left:0;
+        background-color:white;
+        z-index:9999;
+        box-shadow: -1px -7px 37px 0px rgba(0,0,0,0.75);
+      }
     </style>
   </head>
   <body>
+    <div id="info">
+      <div id="foodtype"></div>
+      <div id="quant"></div>
+    </div>
     <div id="map"></div>
     <script>
         let position = {"lat":32.7174,"lng":-117.1628}
       let map;
       var locations = [
-        {lat: 32.7174, lng:-117.1628},
-        {lat: 32.7170, lng:-117.1428},
-        {lat: 32.7170, lng:-117.1412},
+        {lat: 32.7174, lng:-117.1628, "food_type":"Sandwich Platter","quant":20},
+        {lat: 32.7170, lng:-117.1528, "food_type":"Salad", "quant":50},
+        {lat: 32.7120, lng:-117.1662, "food_type":"Bread","quant":150},
+        {lat: 32.7110, lng:-117.1452, "food_type":"Cake", "quant":5},
+        {lat: 32.7190, lng:-117.1466, "food_type":"Carrots", "quant":20},
       ]
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 32.7174, lng:-117.1628},
           zoom: 15
         });
-        var marker = new google.maps.Marker({position: locations[2], map: map, icon:"/food.png"});
+        let markers = locations.map(function(location,i){
+          var marker = new google.maps.Marker({position: location, map: map, icon:"/food.png"});
+          marker.addListener('mouseover',function(){
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            let foodType = document.getElementById("foodtype");
+            let quant = document.getElementById("quant");
+            foodType.textContent = location.food_type
+            quant.textContent = location.quant
+          })
+          marker.addListener('mouseout',function(){
+            marker.setAnimation(null);
+          })
+        })
+
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFHUcu9YLCi1TXncyHojgov3L9Q9tA4z0&callback=initMap"
