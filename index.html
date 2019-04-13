@@ -26,10 +26,6 @@
           <div class="header">Quantity: </div>
           <input id="quantity"></input>
         </div>
-        <div class="row">
-            <div class="header">Price: </div>
-          <input id="price"></input>
-        </div>
         <div class="row">        
             <div class="header">Contact: </div>
             <input id="contact"></input>
@@ -42,10 +38,6 @@
       <div class="row">
           <div class="header">Description</div>
           <div id="foodtype"></div>
-      </div>
-      <div class="row">        
-          <div class="header">Price</div>
-          <div id="price-sidebar"></div>
       </div>
       <div class="row">
         <div class="header">Quantity</div>
@@ -62,11 +54,11 @@
       let position = {"lat":32.7174,"lng":-117.1628};
       let map;
       var locations = [
-        {lat: 32.6174, lng:-117.1228, "food_type":"Sandwich Platter","quant":20, "image":"/images/sandwich.jpg"},
-        {lat: 32.7170, lng:-117.1528, "food_type":"Cookies", "quant":50, "image":"/images/cookies.jpeg"},
-        {lat: 32.7120, lng:-117.1662, "food_type":"Bread","quant":150, "image":"/images/bread.jpg"},
-        {lat: 32.7110, lng:-117.1452, "food_type":"Cake", "quant":5, "image":"/images/cake.jpeg"},
-        {lat: 32.7190, lng:-117.1466, "food_type":"Carrots", "quant":20, "image":"/images/carrots.jpg"},
+        {lat: 32.7074, lng:-117.1528, "food_type":"Sandwich Platter","quant":20, "image":"/images/sandwich.jpg","contact":"555-555-5555"},
+        {lat: 32.7170, lng:-117.1528, "food_type":"Cookies", "quant":50, "image":"/images/cookies.jpeg","contact":"555-555-5555"},
+        {lat: 32.7120, lng:-117.1662, "food_type":"Bread","quant":150, "image":"/images/bread.jpg","contact":"555-555-5555"},
+        {lat: 32.7110, lng:-117.1452, "food_type":"Cake", "quant":5, "image":"/images/cake.jpeg","contact":"555-555-5555"},
+        {lat: 32.7190, lng:-117.1466, "food_type":"Carrots", "quant":20, "image":"/images/carrots.jpg","contact":"555-555-5555"},
       ]
       function getLocation(callback){
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -84,21 +76,29 @@
           center: {lat: 32.7174, lng:-117.1628},
           zoom: 15
         });
-        
-        let markers = locations.map(function(location,i){
-          var marker = new google.maps.Marker({position: location, map: map, icon:"/images/food.png"});
-          marker.addListener('mouseover',function(){
+
+        function createMarker(location){
+          console.log("location: ", location);
+          let marker = new google.maps.Marker({position: {lat:location.lat, lng:location.lng}, map: map, icon:"/images/food.png"});
+          console.log(marker);
+          marker.addListener('mouseover',()=>{
             marker.setAnimation(google.maps.Animation.BOUNCE);
             let foodType = document.getElementById("foodtype");
             let quant = document.getElementById("quant");
             let image = document.getElementById("image");
-            foodType.textContent = location.food_type
-            quant.textContent = location.quant
-            image.src = location.image
+            let contact = document.getElementById("user");
+            foodType.textContent = location.food_type;
+            quant.textContent = location.quant;
+            image.src = location.image;
+            contact.textContent = location.contact
           })
           marker.addListener('mouseout',function(){
             marker.setAnimation(null);
           })
+        }
+        
+        let markers = locations.map(function(location,i){
+          createMarker(location);
         })
         let fab = document.getElementById("fab");
         fab.onclick = ()=>{
@@ -110,13 +110,18 @@
             let lng = document.getElementById("lng");
             lng.textContent = location.lng;
           });
-          function getInfo(){
-            return {
-              lat:document.getElementById("lat").textContent,
-              lng:document.getElementById("lng").textContent,
-              food_type:document.getElementById("description").textContent,
-              price: document.getElementById("price").textContent,
-            }  
+          let create = document.getElementById("create");
+          create.onclick = function(){
+            let newEvent = {
+              lat:parseFloat(document.getElementById("lat").textContent),
+              lng:parseFloat(document.getElementById("lng").textContent),
+              food_type:document.getElementById("description").value,
+              quant: document.getElementById("quantity").value,
+              contact: document.getElementById("contact").value,
+            }
+            console.log(newEvent);
+            createMarker(newEvent);
+            container.style.display = "none";
           }
         };
       }
