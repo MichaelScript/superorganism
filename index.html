@@ -23,12 +23,17 @@
     <script>
         let position = {"lat":32.7174,"lng":-117.1628}
       let map;
+      var locations = [
+        {lat: 32.7174, lng:-117.1628},
+        {lat: 32.7170, lng:-117.1428},
+        {lat: 32.7170, lng:-117.1412},
+      ]
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 32.7174, lng:-117.1628},
-          zoom: 10
+          zoom: 15
         });
-        var marker = new google.maps.Marker({position: position, map: map});
+        var marker = new google.maps.Marker({position: locations[2], map: map, icon:"/food.png"});
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFHUcu9YLCi1TXncyHojgov3L9Q9tA4z0&callback=initMap"
