@@ -8,11 +8,35 @@
     <link href="/main.css" rel="stylesheet">
   </head>
   <body>
+    <div id="modal-container">
+      <div id="modal">
+        <div class="row">
+          <div class="header">Description: </div>
+        <input id="description"></input>
+        </div>
+        <div class="row">        
+          <div class="header">Quantity: </div>
+          <input id="quantity"></input>
+        </div>
+        <div class="row">
+            <div class="header">Price: </div>
+          <input id="price"></input>
+        </div>
+        <div class="row">        
+            <div class="header">Contact: </div>
+            <input id="contact"></input>
+        </div>
+      </div>
+    </div>
     <div id="info">
       <img id="image"></img>
       <div class="row">
           <div class="header">Description</div>
           <div id="foodtype"></div>
+      </div>
+      <div class="row">        
+          <div class="header">Price</div>
+          <div id="price-sidebar"></div>
       </div>
       <div class="row">
         <div class="header">Quantity</div>
@@ -55,7 +79,21 @@
             marker.setAnimation(null);
           })
         })
-
+        let fab = document.getElementById("fab");
+        navigator.geolocation.getCurrentPosition(function(position) {
+          position = {
+          lat:position.coords.latitude,
+          lng:position.coords.longitude
+          }
+          console.log("position", position);
+        },function(err){
+          console.log(err);
+        },{timeout:15000});
+        fab.onclick = ()=>{
+          let container = document.getElementById("modal-container");
+          container.style.display = "flex";
+          
+        };
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFHUcu9YLCi1TXncyHojgov3L9Q9tA4z0&callback=initMap"
