@@ -30,6 +30,10 @@
             <div class="header">Contact: </div>
             <input id="contact"></input>
         </div>
+        <div class="row">
+          <div class="header">Image: </div>
+          <input id="image-input" type="file" name="pic" accept="image/*">
+        </div>
         <button id="create">Create</button>
       </div>
     </div>
@@ -112,16 +116,17 @@
           });
           let create = document.getElementById("create");
           create.onclick = function(){
-            let newEvent = {
-              lat:parseFloat(document.getElementById("lat").textContent),
-              lng:parseFloat(document.getElementById("lng").textContent),
-              food_type:document.getElementById("description").value,
-              quant: document.getElementById("quantity").value,
-              contact: document.getElementById("contact").value,
-            }
-            console.log(newEvent);
-            createMarker(newEvent);
-            container.style.display = "none";
+          let newEvent = {
+            lat:parseFloat(document.getElementById("lat").textContent),
+            lng:parseFloat(document.getElementById("lng").textContent),
+            food_type:document.getElementById("description").value,
+            quant: document.getElementById("quantity").value,
+            contact: document.getElementById("contact").value,
+            image:"/images/bagels.jpg"
+          }
+          console.log(newEvent);
+          createMarker(newEvent);
+          container.style.display = "none";
           }
         };
       }
